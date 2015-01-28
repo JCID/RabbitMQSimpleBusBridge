@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="jcid.rabbitmq.bus.class">Jcid\RabbitMQBridge\MessageBus\MessageBusMiddleware</parameter>
+        <parameter key="jcid.rabbitmq.default.consumer.class">Jcid\RabbitMQBridge\MessageBus\DefaultConsumer</parameter>
+    </parameters>
+
+    <services>
+        <service id="jcid.rabbitmq.bus" class="%jcid.rabbitmq.bus.class%" public="false">
+            <tag name="command_bus_middleware" priority="100" />
+            <tag name="event_bus_middleware" priority="100" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="jcid.rabbitmq.default.consumer" class="%jcid.rabbitmq.default.consumer.class%" public="false">
+            <argument type="service" id="command_bus" />
+            <argument type="service" id="event_bus" />
+            <argument type="service" id="logger" />
+        </service>
+    </services>
+</container>
