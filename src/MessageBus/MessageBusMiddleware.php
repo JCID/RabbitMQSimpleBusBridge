@@ -55,7 +55,6 @@ class MessageBusMiddleware implements BaseMessageBusMiddleware
                         ->get("old_sound_rabbit_mq.default_command_producer")
                         ->publish(serialize(new AsyncMessage($message)));
                 }
-
             } catch (\Exception $e) {
                 $this->logger->critical("Message could not be send to RabbitMQ, forwarded the event to next handler", [
                     "exception" => $e,
