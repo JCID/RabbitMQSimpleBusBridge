@@ -12,7 +12,7 @@ interface AdvancedAsyncMessage
     /**
      * @return string
      */
-    public function getRroutingKey();
+    public function getRoutingKey();
 
     /**
      * @return array

@@ -47,7 +47,7 @@ class MessageBusMiddleware implements BaseMessageBusMiddleware
                         ->get(sprintf("old_sound_rabbit_mq.%s", $message->getProducer()))
                         ->publish(
                             serialize(new AsyncMessage($message)),
-                            $message->getRroutingKey(),
+                            $message->getRoutingKey(),
                             $message->getAdditionalProperties()
                         );
                 } else {
