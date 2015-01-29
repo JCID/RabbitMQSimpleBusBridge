@@ -6,7 +6,8 @@
         "simple-bus/symfony-bridge": "~3.0",
         "symfony/dependency-injection": "~2.3",
         "symfony/http-kernel": "~2.3",
-        "symfony/yaml": "~2.3"
+        "symfony/yaml": "~2.3",
+        "oldsound/rabbitmq-bundle": "~1.5"
     },
     "autoload": {
         "psr-4" : { "Jcid\\RabbitMQBridge\\" : "src" }

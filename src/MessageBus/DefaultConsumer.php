@@ -58,6 +58,8 @@ class DefaultConsumer implements ConsumerInterface
             $this->logger->critical("Message not handled", [
                 "exception" => $e,
             ]);
+
+            return ConsumerInterface::MSG_REJECT;
         }
     }
 }
