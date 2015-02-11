@@ -16,7 +16,6 @@
             <argument type="service" id="logger" />
             <argument type="service" id="service_container" />
         </service>
-
         <service id="jcid.rabbitmq.default.consumer" class="%jcid.rabbitmq.default.consumer.class%" public="false">
             <argument type="service" id="command_bus" />
             <argument type="service" id="event_bus" />

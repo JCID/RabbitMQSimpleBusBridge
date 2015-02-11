@@ -2,6 +2,8 @@
 
 namespace Jcid\RabbitMQBridge\MessageBus;
 
+use Jcid\RabbitMQBridge\EventDispatcher\Events\PostMessageEvent;
+use Jcid\RabbitMQBridge\EventDispatcher\Events\PreMessageEvent;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
@@ -45,8 +47,9 @@ class DefaultConsumer implements ConsumerInterface
     public function execute(AMQPMessage $msg)
     {
         try {
-            $message = unserialize($msg->body);
+            $this->eventBus->handle(new PreMessageEvent());
 
+            $message = unserialize($msg->body);
             if ($message instanceof AsyncMessage) {
                 if ($message->getMessage() instanceof Command) {
                     $this->commandBus->handle($message);
@@ -60,6 +63,8 @@ class DefaultConsumer implements ConsumerInterface
             ]);
 
             return ConsumerInterface::MSG_REJECT;
+        } finally {
+            $this->eventBus->handle(new PostMessageEvent());
         }
     }
 }
