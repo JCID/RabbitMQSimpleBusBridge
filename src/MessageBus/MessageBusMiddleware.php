@@ -44,7 +44,7 @@ class MessageBusMiddleware implements BaseMessageBusMiddleware
             try {
                 if ($message instanceof AdvancedAsyncMessage) {
                     $this->container
-                        ->get(sprintf("old_sound_rabbit_mq.%s", $message->getProducer()))
+                        ->get(sprintf("old_sound_rabbit_mq.%s_producer", $message->getProducer()))
                         ->publish(
                             serialize(new AsyncMessage($message)),
                             $message->getRoutingKey(),
