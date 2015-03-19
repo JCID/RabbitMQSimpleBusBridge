@@ -23,10 +23,5 @@ class JcidRabbitMQBridgeExtension extends Extension
         if ($config["debug"] === true && $container->hasDefinition("jcid.rabbitmq.bus")) {
             $container->removeDefinition("jcid.rabbitmq.bus");
         }
-
-        $enabledBundles = $container->getParameter("kernel.bundles");
-        if (isset($enabledBundles["DoctrineBundle"])) {
-            $loader->load("orm.xml");
-        }
     }
 }
