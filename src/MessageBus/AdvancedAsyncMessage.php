@@ -2,13 +2,8 @@
 
 namespace Jcid\RabbitMQBridge\MessageBus;
 
-interface AdvancedAsyncMessage
+interface AdvancedAsyncMessage extends ProducerAsyncMessage
 {
-    /**
-     * @return string
-     */
-    public function getProducer();
-
     /**
      * @return string
      */

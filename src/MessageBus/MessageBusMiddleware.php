@@ -42,18 +42,23 @@ class MessageBusMiddleware implements BaseMessageBusMiddleware
         // Packing message for handeling async
         } elseif ($message instanceof IsHandledAsync) {
             try {
+
+                // Custom producer message
+                if ($message instanceof ProducerAsyncMessage) {
+                    $producer = $this->container->get(sprintf("old_sound_rabbit_mq.%s_producer", $message->getProducer()));
+                } else {
+                    $producer = $this->container->get("old_sound_rabbit_mq.default_command_producer");
+                }
+
+                // Custom routing key / properties
                 if ($message instanceof AdvancedAsyncMessage) {
-                    $this->container
-                        ->get(sprintf("old_sound_rabbit_mq.%s_producer", $message->getProducer()))
-                        ->publish(
+                    $producer->publish(
                             serialize(new AsyncMessage($message)),
                             $message->getRoutingKey(),
                             $message->getAdditionalProperties()
                         );
                 } else {
-                    $this->container
-                        ->get("old_sound_rabbit_mq.default_command_producer")
-                        ->publish(serialize(new AsyncMessage($message)));
+                    $producer->publish(serialize(new AsyncMessage($message)));
                 }
             } catch (\Exception $e) {
                 $this->logger->critical("Message could not be send to RabbitMQ, forwarded the event to next handler", [
