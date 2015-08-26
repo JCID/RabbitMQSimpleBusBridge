@@ -46,10 +46,11 @@ class DefaultConsumer implements ConsumerInterface
      */
     public function execute(AMQPMessage $msg)
     {
-        try {
-            $this->eventBus->handle(new PreMessageEvent());
+        $this->eventBus->handle(new PreMessageEvent());
+        $message = unserialize($msg->body);
 
-            $message = unserialize($msg->body);
+        try {
+
             if ($message instanceof AsyncMessage) {
                 if ($message->getMessage() instanceof Command) {
                     $this->commandBus->handle($message);
@@ -59,6 +60,7 @@ class DefaultConsumer implements ConsumerInterface
             }
         } catch (\Exception $e) {
             $this->logger->critical("Message not handled", [
+                "message"   => $message,
                 "exception" => $e,
             ]);
 
