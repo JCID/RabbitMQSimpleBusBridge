@@ -50,16 +50,20 @@ class MessageBusMiddleware implements BaseMessageBusMiddleware
                     $producer = $this->container->get("old_sound_rabbit_mq.default_command_producer");
                 }
 
-                // Custom routing key / properties
-                if ($message instanceof AdvancedAsyncMessage) {
-                    $producer->publish(
-                            serialize(new AsyncMessage($message)),
-                            $message->getRoutingKey(),
-                            $message->getAdditionalProperties()
-                        );
-                } else {
-                    $producer->publish(serialize(new AsyncMessage($message)));
+                $routingKey           = '';
+                $additionalProperties = [];
+
+                if ($message instanceof RoutingKeyAsyncMessage) {
+                    $routingKey = $message->getRoutingKey();
                 }
+
+                if ($message instanceof AdvancedAsyncMessage) {
+                    $routingKey           = $message->getRoutingKey();
+                    $additionalProperties = $message->getAdditionalProperties();
+                }
+
+                $producer->publish(serialize(new AsyncMessage($message)), $routingKey, $additionalProperties);
+
             } catch (\Exception $e) {
                 $this->logger->critical("Message could not be send to RabbitMQ, forwarded the event to next handler", [
                     "exception" => $e,
