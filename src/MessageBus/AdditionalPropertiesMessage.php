@@ -2,13 +2,8 @@
 
 namespace Jcid\RabbitMQBridge\MessageBus;
 
-interface AdvancedAsyncMessage extends ProducerAsyncMessage
+interface AdditionalPropertiesMessage extends IsHandledAsync
 {
-    /**
-     * @return string
-     */
-    public function getRoutingKey();
-
     /**
      * @return array
      */

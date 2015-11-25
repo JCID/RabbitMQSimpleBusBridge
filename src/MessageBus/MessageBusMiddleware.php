@@ -57,8 +57,7 @@ class MessageBusMiddleware implements BaseMessageBusMiddleware
                     $routingKey = $message->getRoutingKey();
                 }
 
-                if ($message instanceof AdvancedAsyncMessage) {
-                    $routingKey           = $message->getRoutingKey();
+                if ($message instanceof AdditionalPropertiesMessage) {
                     $additionalProperties = $message->getAdditionalProperties();
                 }
 
