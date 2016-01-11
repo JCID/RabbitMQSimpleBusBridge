@@ -59,7 +59,7 @@ class DefaultConsumer implements ConsumerInterface
                 }
             }
         } catch (\Exception $e) {
-            $this->logger->critical("Message not handled", [
+            $this->logger->critical($e->getMessage(), [
                 "message"   => get_class($message->getMessage()),
                 "exception" => $e,
             ]);
