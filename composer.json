@@ -4,7 +4,7 @@
     "require": {
         "php": ">=5.5.14",
         "long-running/long-running": "~0.1",
-        "oldsound/rabbitmq-bundle": "~1.5",
+        "php-amqplib/rabbitmq-bundle": "~1.5",
         "simple-bus/doctrine-orm-bridge": "~3.0",
         "simple-bus/symfony-bridge": "~3.0",
         "symfony/dependency-injection": "~2.3",
